@@ -24,4 +24,8 @@ expo start
 
 * Radi Achkik - [radiachk](https://github.com/radiachk)
 
+### License
+
+This project is licensed under the MIT License - see the LICENSE file for details
+
 
