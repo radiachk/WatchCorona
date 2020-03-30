@@ -43,6 +43,7 @@ class Map extends React.Component {
                         lat: Number(values['lat']),
                         long: Number(values['long']),
                         infected: Number(values['cases']),
+                        deaths: Number(values['deaths']),
                         region: String(values['region'])
                     };
                     props.addRegion(region);
@@ -62,19 +63,17 @@ class Map extends React.Component {
             let radius = 0;
             var infected = circle.infected;
             if (infected !== 0) {
-                if (infected < 100) {
+                if (infected < 1000) {
                     radius = 10000;
-                } else if (infected < 1000) {
-                    radius = 25000;
                 } else {
-                    radius = Math.max(50000, circle.infected * 10);
+                    radius = circle.infected * 10;
                 }
             }
             return (
                     <MapView.Circle
                         center={{latitude: circle.lat, longitude: circle.long}}
                         radius={radius}
-                        fillColor={'#00adb5'}
+                        fillColor = { 'rgba(0, 173, 181, 0.5)' }
                         key = {String(circle_id)}
                         style={{zIndex: 100}}
                     />

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {FlatList, Keyboard, StyleSheet, Switch, View} from 'react-native';
-import {Icon, ListItem, SearchBar, Text, Tooltip} from 'react-native-elements';
+import {Badge, Icon, ListItem, SearchBar, Text, Tooltip} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {GradientMask} from "../components/GradientMask";
 import {Grid, StackedAreaChart, XAxis, YAxis} from "react-native-svg-charts";
@@ -20,6 +20,8 @@ class Statistics extends Component {
         loading: false,
         data: this.props.data.regions,
         selected_region_id: 'world',
+        selected_region_name: 'World',
+        first_date: moment(),
         chart_data:  [],
         error: null,
         keyboard_visible: false,
@@ -35,7 +37,7 @@ class Statistics extends Component {
   toggle_show_world = (value) => {
       if (value === true) {
           this.keys = ['deaths_region' ,'deaths_world', 'cases_region', 'cases_world'];
-          this.chart_colors = ['#de7119', '#4d089a', '#e8f044', '#dc2ade'];
+          this.chart_colors = ['#de7119', '#4d089a', '#e8f044','#dc2ade'];
       } else {
           this.keys = ['deaths_region' ,'cases_region'];
           this.chart_colors = ['#de7119', '#e8f044'];
@@ -89,6 +91,10 @@ class Statistics extends Component {
 
     get_chart_data = (geo_id) => {
         this.setState({ selected_region_id: geo_id });
+        let region_name = this.state.data.filter(function (element) {
+            return element.key === geo_id;
+        })[0].region;
+        this.setState({ selected_region_name: region_name});
         this.setState({ loading: true });
         fetch('https://coronawatch-firebase.firebaseio.com/history/.json')
             .then(response => response.json())
@@ -114,7 +120,7 @@ class Statistics extends Component {
                     history.push({
                         date: date,
                         cases_region: history_json[date].cases,
-                        deaths_region: history_json[date].cases,
+                        deaths_region: history_json[date].deaths,
                         cases_world: 0,
                         deaths_world: 0,
                     })
@@ -129,6 +135,7 @@ class Statistics extends Component {
                     return moment(a.date, 'YYYY-MM-DD') - moment(b.date, 'YYYY-MM-DD')
                 });
 
+                this.setState({first_date: moment(history[0].date, 'YYYY-MM-DD')});
                 this.setState(previousState => {
                         previousState.chart_data = history;
                         return previousState;
@@ -180,6 +187,7 @@ class Statistics extends Component {
     );
   };
 
+
     render() {
         return (
             <View style={{ flex: 1}}>
@@ -209,6 +217,11 @@ class Statistics extends Component {
                                             color='#eeeeee'
                                         />
                                     </Tooltip>
+                                    <View>
+                                        <Text style={styles.regionName}>
+                                            {this.state.selected_region_name}
+                                        </Text>
+                                    </View>
                                     <View style={styles.switchRow}>
                                         <Switch
                                             onValueChange={this.toggle_show_world}
@@ -219,11 +232,19 @@ class Statistics extends Component {
 
                                 </View>
                                 <View style={styles.chartAxisContainer}>
+                                    <GradientMask/>
                                     <YAxis
                                         data={this.getMaxChartValue()}
                                         contentInset={{ top: 20, bottom: 20 }}
+                                        formatLabel={(value, index) => {
+                                            if (value >= 1000) {
+                                                return (value / 1000).toLocaleString() + 'k';
+                                            } else {
+                                                return value.toLocaleString();
+                                            }
+                                        }}
                                         svg={{
-                                            fill: '#393e46',
+                                            fill: '#eeeeee',
                                             fontSize: 10,
                                         }}
                                     />
@@ -236,7 +257,7 @@ class Statistics extends Component {
                                         animate={true}
                                         animationDuration={1000}
                                         curve={shape.curveNatural}
-                                    ><Grid/>
+                                    >
                                     </StackedAreaChart>
                                 </View>
 
@@ -244,9 +265,9 @@ class Statistics extends Component {
                                     style={{ marginHorizontal: -10 }}
                                     data={this.state.chart_data}
                                     formatLabel={(value, index) => {
-                                        let scale = Math.floor(this.state.chart_data.length/10);
+                                        let scale = Math.floor(this.state.chart_data.length / 6);
                                         if (index % scale === 0) {
-                                            return value;
+                                            return moment(this.state.first_date).add(index, 'days').format('DD.MM');
                                         } else {
                                             return null;
                                         }
@@ -255,7 +276,7 @@ class Statistics extends Component {
                                     contentInset={{ left: 40, right: 15 }}
                                     svg={{
                                         fontSize: 10,
-                                        fill: '#393e46'
+                                        fill: '#eeeeee'
                                     }}
                                     />
                             </View>
@@ -267,9 +288,13 @@ class Statistics extends Component {
                         <TouchableScale>
                             <ListItem
                                 title={item.region}
-                                badge={{value: item.infected, badgeStyle: {
-                                    backgroundColor: '#00adb5'
-                                    }}}
+                                rightElement={
+                                    <View style={{flexDirection: 'row'}}>
+                                        <Badge value={item.infected} badgeStyle={{backgroundColor: '#00adb5'}}/>
+                                        <Badge value={item.deaths} badgeStyle={{backgroundColor: '#393e46'}}/>
+                                    </View>
+                                }
+
                                 onPress={() => {
                                     this.get_chart_data(item.key)
                                 }}
@@ -332,6 +357,12 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 10,
         color: '#eeeeee'
+    },
+    regionName: {
+        fontSize: 12,
+        color: '#eeeeee',
+        marginLeft: '25%',
+        alignSelf: 'center'
     },
     searchableList: {
         backgroundColor: '#393e46',

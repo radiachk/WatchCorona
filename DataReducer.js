@@ -9,7 +9,7 @@ const dataReducer = (state = INITIAL_STATE, action) => {
         case 'ADD_REGION':
             const {regions} = state;
             let values = action.region;
-            if (Object.keys(values).length !== 5) {
+            if (Object.keys(values).length !== 6) {
                 console.warn('the data is corrupted');
                 return state
             }

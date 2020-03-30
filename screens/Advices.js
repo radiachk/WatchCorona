@@ -15,25 +15,25 @@ const SECTIONS = [
     {
         name: 'Allgemein',
         description: 'Hier erhalten sie Informationen und offizielle Empfehlungen, die den Zweck haben sie vor einer Infektion ' +
-            ' zu bewahren und die Verbreitung des Coronavirus in Deutschland zu verlangsamen.',
+            ' zu bewahren und die Verbreitung des Coronavirus in Deutschland einzudämmen.',
         image: require("../assets/images/corona.jpg"),
         index: 0,
         topics: [
             {
                 name: 'Motive',
                 description_title: 'Aufrechterhalten des Krankensystems',
-                description: 'Um die Verfügbarkeit von Krankenhausbetten, medizinischer Ausrüstung, Fachpersonal und' +
-                    'damit auch der medizinischen Versorgung der uns nahestehenden Personen ist es unvermeidbar, dass ' +
-                    'jeder seinen Beitrag zur globalen Coronavirus-Pandemie leistet.',
+                description: 'Um die Verfügbarkeit von Krankenhausbetten, medizinischer Ausrüstung, Fachpersonal und ' +
+                    'damit auch der medizinischen Versorgung der uns nahestehenden Personen zu gewährleisten, ist es ' +
+                    'unvermeidbar, dass jeder seinen Beitrag zur globalen Coronavirus-Pandemie leistet.',
                 source: 'https://www.zusammengegencorona.de/'
             },
             {
                 name: 'Quellen',
                 description_title: 'Zuverlässigkeit',
-                description: 'Hier dargestellte Informationen sind automatisch durch verschiedeneInternetquellen ' +
-                    '(Button rechts) ermittelt worden. Da die Korrektheit nicht immer gewähreistet werden kann, können ' +
-                    'wir für diese Informationen weder Haftung übernehmen, noch sollten sie diese als einzige Informationsquelle verwenden.',
-                source: ''
+                description: 'Hier dargestellte Informationen sind automatisch durch verschiedene Internetquellen ' +
+                    'ermittelt worden. Wir verwenden den von der ECDC (European Centre for Disease Prevention and Control) ' +
+                    'veröffentlichten Datensatz.',
+                source: 'https://www.ecdc.europa.eu/'
             }
         ],
     },
@@ -72,9 +72,9 @@ const SECTIONS = [
             {
                 name: 'Abstand    ',
                 description_title: 'Abstand und Hilfe',
-                description: 'Versuchen sie persönliche Begegnungen möglichst einzuschränken. Meiden sie Orte an denen' +
-                    'viele Menschen sind oder verkehren (Nicht zu Stoßzeiten einkaufen gehen; Öffentliche Verkehrsmittel).' +
-                    'Selbst in der Arbeit können sie mit einem bis zwei Metern Sicherheitsabstand die Risiken stark minimieren.',
+                description: 'Versuchen sie persönliche Begegnungen möglichst einzuschränken. Meiden sie Orte an denen ' +
+                    'viele Menschen sind oder verkehren (Nicht zu Stoßzeiten einkaufen gehen; Öffentliche Verkehrsmittel). ' +
+                    'Selbst in der Arbeit können sie mit einem bis zwei Metern Sicherheitsabstand die Risiken stark minimieren. ',
                 source: 'https://www.infektionsschutz.de/coronavirus/verhalten.html',
             },{
                 name: 'Quarantäne',

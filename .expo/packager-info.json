@@ -2,8 +2,8 @@
   "devToolsPort": 19002,
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 16768,
-  "expoServerNgrokUrl": "https://za-m7y.radiach.watchcorona.exp.direct",
-  "packagerNgrokUrl": "https://packager.za-m7y.radiach.watchcorona.exp.direct",
-  "ngrokPid": 16404
+  "packagerPid": 17024,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null
 }
